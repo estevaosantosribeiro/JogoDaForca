@@ -38,7 +38,7 @@
             };
 
             Random random = new Random();
-
+             
             int indiceEscolhido = random.Next(palavras.Length);
 
             string palavraEscolhida = palavras[indiceEscolhido];
