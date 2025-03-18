@@ -38,7 +38,7 @@
             };
 
             Random random = new Random();
-             
+
             int indiceEscolhido = random.Next(palavras.Length);
 
             string palavraEscolhida = palavras[indiceEscolhido];
@@ -54,47 +54,11 @@
 
             do
             {
-                string cabecaDoBoneco = quantidadeErros >= 1 ? " o " : " ";
-                string tronco = quantidadeErros >= 2 ? "x" : " ";
-                string troncoBaixo = quantidadeErros >= 2 ? " x " : " ";
-                string bracoEsquerdo = quantidadeErros >= 3 ? "/" : " ";
-                string bracoDireito = quantidadeErros >= 4 ? @"\" : " ";
-                string pernas = quantidadeErros >= 5 ? "/ \\" : " ";
+                Jogo.ExibirBoneco(quantidadeErros, letrasEncontradas);
 
-                Console.Clear();
-                Console.WriteLine("----------------------------------------------");
-                Console.WriteLine("Jogo da Forca");
-                Console.WriteLine("----------------------------------------------");
-                Console.WriteLine(" ___________        ");
-                Console.WriteLine(" |/        |        ");
-                Console.WriteLine(" |        {0}       ", cabecaDoBoneco);
-                Console.WriteLine(" |        {0}{1}{2} ", bracoEsquerdo, tronco, bracoDireito);
-                Console.WriteLine(" |        {0}       ", troncoBaixo);
-                Console.WriteLine(" |        {0}       ", pernas);
-                Console.WriteLine(" |                  ");
-                Console.WriteLine(" |                  ");
-                Console.WriteLine("_|____              ");
-                Console.WriteLine("----------------------------------------------");
-                Console.WriteLine("Erros do jogador: " + quantidadeErros);
-                Console.WriteLine("----------------------------------------------");
-                Console.WriteLine("Palavra escolhida: " + String.Join("", letrasEncontradas));
-                Console.WriteLine("----------------------------------------------");
+                char chute = Jogo.FazerChute();
 
-                Console.Write("Digite uma letra: ");
-                char chute = Console.ReadLine()!.ToUpper()[0];
-
-                bool letraFoiEncontrada = false;
-
-                for (int contador = 0; contador < palavraEscolhida.Length; contador++)
-                {
-                    char letraAtual = palavraEscolhida[contador];
-
-                    if (chute == letraAtual)
-                    {
-                        letrasEncontradas[contador] = letraAtual;
-                        letraFoiEncontrada = true;
-                    }
-                }
+                bool letraFoiEncontrada = VerificarChute(palavraEscolhida, chute, letrasEncontradas);
 
                 if (letraFoiEncontrada == false)
                     quantidadeErros++;
@@ -106,20 +70,34 @@
 
                 if (jogadorAcertou)
                 {
-                    Console.WriteLine("----------------------------------------------");
-                    Console.WriteLine($"Você acertou a palavra secreta {palavraEscolhida}, parabéns!");
-                    Console.WriteLine("----------------------------------------------");
+                    Jogo.ExibirVitoria(palavraEscolhida);
                 }
                 else if (jogadorEnforcou)
                 {
-                    Console.WriteLine("----------------------------------------------");
-                    Console.WriteLine("Que azar! Tente novamente!");
-                    Console.WriteLine("----------------------------------------------");
+                    Jogo.ExibirDerrota();
                 }
 
                 Console.ReadLine();
 
             } while (jogadorEnforcou == false && jogadorAcertou == false);
+        }
+
+        static bool VerificarChute(string palavraEscolhida, char chute, char[] letrasEncontradas)
+        {
+            bool letraFoiEncontrada = false;
+
+            for (int contador = 0; contador < palavraEscolhida.Length; contador++)
+            {
+                char letraAtual = palavraEscolhida[contador];
+
+                if (chute == letraAtual)
+                {
+                    letrasEncontradas[contador] = letraAtual;
+                    letraFoiEncontrada = true;
+                }
+            }
+
+            return letraFoiEncontrada;
         }
     }
 }
