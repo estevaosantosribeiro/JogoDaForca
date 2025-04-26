@@ -2,7 +2,83 @@
 {
     public static class Jogo
     {
-        public static void ExibirBoneco(int quantidadeErros, char[] letrasEncontradas)
+        private static string[] palavras = {
+                "ABACATE",
+                "ABACAXI",
+                "ACEROLA",
+                "ACAI",
+                "ARACA",
+                "ABACATE",
+                "BACABA",
+                "BACURI",
+                "BANANA",
+                "CAJA",
+                "CAJU",
+                "CARAMBOLA",
+                "CUPUACU",
+                "GRAVIOLA",
+                "GOIABA",
+                "JABUTICABA",
+                "JENIPAPO",
+                "MACA",
+                "MANGABA",
+                "MANGA",
+                "MARACUJA",
+                "MURICI",
+                "PEQUI",
+                "PITANGA",
+                "PITAYA",
+                "SAPOTI",
+                "TANGERINA",
+                "UMBU",
+                "UVA",
+                "UVAIA"
+            };
+        private static string palavraSorteada = "";
+        public static int quantidadeErros;
+
+        public static char[] ExibirLetrasOcultas()
+        {
+            char[] letrasEncontradas = new char[palavraSorteada.Length];
+
+            for (int caractere = 0; caractere < letrasEncontradas.Length; caractere++)
+                letrasEncontradas[caractere] = '_';
+            return letrasEncontradas;
+        }
+
+        public static bool VerificarChute(char chute, char[] letrasEncontradas)
+        {
+            bool letraFoiEncontrada = false;
+
+            for (int contador = 0; contador < palavraSorteada?.Length; contador++)
+            {
+                char letraAtual = palavraSorteada[contador];
+
+                if (chute == letraAtual)
+                {
+                    letrasEncontradas[contador] = letraAtual;
+                    letraFoiEncontrada = true;
+                }
+            }
+
+            return letraFoiEncontrada;
+        }
+
+        public static void SortearPalavra()
+        {
+            Random random = new();
+
+            int indiceEscolhido = random.Next(palavras.Length);
+
+            palavraSorteada = palavras[indiceEscolhido];
+        }
+
+        public static bool JogadorAcertou(string palavraEncontrada)
+        {
+            return palavraSorteada == palavraEncontrada;
+        }
+
+        public static void ExibirBoneco(char[] letrasEncontradas)
         {
             string cabecaDoBoneco = quantidadeErros >= 1 ? " o " : " ";
             string tronco = quantidadeErros >= 2 ? "x" : " ";
@@ -31,10 +107,10 @@
             Console.WriteLine("----------------------------------------------");
         }
 
-        public static void ExibirVitoria(string palavraEscolhida)
+        public static void ExibirVitoria()
         {
             Console.WriteLine("----------------------------------------------");
-            Console.WriteLine($"Você acertou a palavra secreta {palavraEscolhida}, parabéns!");
+            Console.WriteLine($"Você acertou a palavra secreta {palavraSorteada}, parabéns!");
             Console.WriteLine("----------------------------------------------");
         }
 
